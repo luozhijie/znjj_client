@@ -15,7 +15,7 @@ pdata = {'username': 'admin', 'password': 'admin'}
 pdata = urllib.parse.urlencode(pdata)
 binary_data = pdata.encode('utf-8')
 # 循环次数，用来判断时间 几次后再发送温度数据
-times = 28;
+times = 0;
 while True:
     times += 1
     f = urllib.request.urlopen(url, binary_data)
@@ -50,8 +50,8 @@ while True:
                 print("提交温湿度")
                 times = 0;
                 # 读取dht11数据
-                dht11 = dht11.DHT11(gpio)
-                tempInfo = dht11.read();
+                dht11Info = dht11.DHT11(gpio)
+                tempInfo = dht11Info.read();
                 # 判断是否读取成功
                 if tempInfo.is_valid():
                     # 温度
