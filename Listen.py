@@ -28,17 +28,16 @@ while True:
     GPIO.setmode(GPIO.BCM);
     for a in datas['deviceList']:
         print(a['deviceType']['deviceTypeId'])
-        print(times)
+        gpio = a['device_gpio'];
         # 设备类型为遥控器的动作
         if a['deviceType']['deviceTypeId'] == 1:
             print("遥控动作")
         # 设备类型为开关的动作
         if a['deviceType']['deviceTypeId'] == 2:
-            gpio = a['device_gpio'];
+
             # print(gpio)
             if a['deviceStat'] == '0':
                 # print("off")
-
                 # 关
                 GPIO.cleanup(gpio);
             else:
@@ -51,7 +50,7 @@ while True:
                 print("提交温湿度")
                 times = 0;
                 # 读取dht11数据
-                dht11 = dht11.DHT11(a['device_gpio'])
+                dht11 = dht11.DHT11(gpio)
                 tempInfo = dht11.read();
                 # 判断是否读取成功
                 if tempInfo.is_valid():
