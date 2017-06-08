@@ -52,7 +52,7 @@ while True:
         # 设备类型为温度湿度传感器的动作
         if a['deviceType']['deviceTypeId'] == 3 and a['deviceStat'] == '1':
             print('temp')
-            
+
             if times == 30:
                 print("提交温湿度")
                 times = 0;
@@ -78,7 +78,7 @@ while True:
                     if data2 == 'OK':
                         print("上传成功")
         # 设备类型为可燃气体检测的动作
-        if a['deviceType']['deviceTypeId'] ==4  and a['deviceStat'] == '1':
+        if a['deviceType']['deviceTypeId'] == 4 and a['deviceStat'] == '1':
             print("可燃气体检测")
             GPIO.setup(gpio, GPIO.IN);
             if GPIO.input(gpio):
@@ -109,31 +109,30 @@ while True:
             print("红外传感器动作")
         # 设备为人体传感器的 动作
         if a['deviceType']['deviceTypeId'] == 6 and a['deviceStat'] == '1':
-            
-                print("人体检测")
-                GPIO.setup(gpio, GPIO.IN);
+            print("人体检测")
+            GPIO.setup(gpio, GPIO.IN);
+            if GPIO.input(gpio):
+                time.sleep(0.01)
+                # 二次过滤
                 if GPIO.input(gpio):
-                    time.sleep(0.01)
-                    # 二次过滤
-                    if GPIO.input(gpio):
-                        flag2 += 1;
-                        if flag2 < 2:
-                            # 网址
-                            url2 = "http://" + host + "/znjjPage/SendInfoServlet?stat=bodySensor"
-                            # post 参数
-                            pdata2 = {'deviceId': a['deviceId']}
-                            pdata2 = urllib.parse.urlencode(pdata2)
-                            binary_data2 = pdata2.encode('utf-8')
-                            f = urllib.request.urlopen(url2, binary_data2)
-                            data2 = f.read()
-                            data2 = data2.decode('UTF-8')
-                            if data2 == 'OK':
-                                print("上传成功")
-                            else:
-                                print("上传失败")
-                            print('Input was HIGH')
-                else:
-                    flag2 = 0
-                    print("save")
+                    flag2 += 1;
+                    if flag2 < 2:
+                        # 网址
+                        url2 = "http://" + host + "/znjjPage/SendInfoServlet?stat=bodySensor"
+                        # post 参数
+                        pdata2 = {'deviceId': a['deviceId']}
+                        pdata2 = urllib.parse.urlencode(pdata2)
+                        binary_data2 = pdata2.encode('utf-8')
+                        f = urllib.request.urlopen(url2, binary_data2)
+                        data2 = f.read()
+                        data2 = data2.decode('UTF-8')
+                        if data2 == 'OK':
+                            print("上传成功")
+                        else:
+                            print("上传失败")
+                        print('Input was HIGH')
+            else:
+                flag2 = 0
+                print("save")
 
     time.sleep(5)
