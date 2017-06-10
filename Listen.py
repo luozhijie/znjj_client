@@ -88,7 +88,7 @@ while True:
                     flag1 += 1;
                     if flag1 < 2:
                         # 网址
-                        url2 = "http://" + host + "znjjPage//SendInfoServlet?stat=gas"
+                        url2 = "http://" + host + "znjjPage/SendInfoServlet?stat=gas"
                         # post 参数
                         pdata2 = {'deviceId': a['deviceId']}
                         pdata2 = urllib.parse.urlencode(pdata2)
